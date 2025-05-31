@@ -121,6 +121,8 @@ data = [
     ("Federasi Sepak Bola Asia beri sanksi ke pemain Thailand", "olahraga"),
     ("Serena Williams umumkan pensiun dari dunia tenis", "olahraga"),
     ("Arema FC meraih kemenangan penting atas PSIS Semarang", "olahraga"),
+    ("EDUSPORTS: Apa Itu UEFA Badge of Honour?", "olahraga"),
+    ("Ranking Klub UEFA Terbaru: AS Roma Peringkat 5 dan Manchester United Peringkat 14, Kok. Sah!", "olahraga"),
     ("Inter Milan raih Coppa Italia usai kalahkan Juventus", "olahraga"),
     ("Tim basket Indonesia melaju ke semifinal FIBA Asia", "olahraga"),
     ("Indonesia raih perunggu dalam Kejuaraan Dunia Karate", "olahraga"),
@@ -133,7 +135,8 @@ data = [
     ("Pelari Indonesia raih emas dalam lomba lari 100m SEA Games", "olahraga"),
     ("Malik Risaldi Senang Jadi Bek dan Bisa Kantongi Penyerang MU", "olahraga"),
     ("Erick Balas Sindiran Media Asing soal Naturalisasi Indonesia", "olahraga"),
-    
+    ("FIFA Akhirnya Buka Suara soal Rumput JIS", "olahraga"),
+    ("Jelang PSG vs Inter, Inzaghi Diklaim Sepakat Gabung Al Hilal", "olahraga"),
     # Ekonomi
     ("Harga minyak dunia turun drastis hari ini", "ekonomi"),
     ("IHSG naik karena investor asing masuk", "ekonomi"),
@@ -199,6 +202,9 @@ data = [
     ("Pemerintah perketat pengawasan transaksi e-commerce luar negeri", "ekonomi"),
     ("Kementerian Perdagangan batasi impor barang konsumsi", "ekonomi"),
     ("Daftar 6 Insentif Prabowo Bulan Depan: Diskon Tarif Listrik hingga Tol", "ekonomi"),
+    ("Penasihat Danantara Ray Dalio Terbitkan Buku Utang dan Negara Bangkrut", "ekonomi"),
+    ("Ray Dalio Singgung Trump, Hitler-Mussolini di Buku Negara Bangkrut", "ekonomi"),
+    ("Mensesneg Gugat Perusahaan Pontjo Sutowo Rp739 M, Kasus Apa?", "ekonomi"),
     #otomotif
     ("Toyota meluncurkan mobil listrik terbaru di Indonesia", "otomotif"),
     ("Honda resmi rilis motor listrik untuk pasar Asia", "otomotif"),
