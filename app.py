@@ -14,19 +14,6 @@ def load_css(file_path):
         pass
 load_css("style.css")
 
-@st.cache_data
-def get_indonesian_stopwords():
-    return {
-        'yang', 'dan', 'di', 'ke', 'dari', 'dalam', 'untuk', 'pada', 'dengan', 
-        'oleh', 'adalah', 'ini', 'itu', 'akan', 'telah', 'sudah', 'dapat',
-        'atau', 'juga', 'tidak', 'ada', 'saya', 'kamu', 'dia', 'mereka',
-        'kami', 'kita', 'anda', 'ia', 'nya', 'mu', 'ku', 'se', 'ter',
-        'ber', 'per', 'an', 'kan', 'lah', 'pun', 'kah', 'tah', 'sangat',
-        'lebih', 'paling', 'sekali', 'bisa', 'harus', 'ingin', 'mau',
-        'seperti', 'karena', 'kalau', 'jika', 'bila', 'ketika', 'saat',
-        'waktu', 'sebelum', 'sesudah', 'setelah', 'sambil', 'selama'
-    }
-
 def preprocess_text(text):
     if not text or not isinstance(text, str):
         return ""
@@ -38,9 +25,8 @@ def preprocess_text(text):
         keywords = [word for word in parts if word.isalpha()]
         return ' '.join(keywords).strip()
 
-    text = re.sub(r'http[s]?://\S+', '', text)  # hapus URL
+    text = re.sub(r'http[s]?://\S+', '', text)
     return text.strip()
-
 
 def preprocess_training_data(data):
     processed_data = []
@@ -50,20 +36,10 @@ def preprocess_training_data(data):
             processed_data.append((processed_text, label))
     return processed_data
 
-st.markdown('<div class="content">', unsafe_allow_html=True)
-st.markdown('<div class="title-style">🧠 AI News Classifier</div>', unsafe_allow_html=True)
-
-# CACHING
-@st.cache_resource
 def train_model(processed_data):
-    """Train model dengan caching untuk efisiensi"""
     try:
         texts, labels = zip(*processed_data)
-        vectorizer = CountVectorizer(
-            max_features=5000,  # Batasi fitur untuk efisiensi
-            ngram_range=(1, 2),  # Unigram dan bigram
-            min_df=2  # Minimal muncul di 2 dokumen
-        )
+        vectorizer = CountVectorizer(min_df=2)
         X = vectorizer.fit_transform(texts)
         model = MultinomialNB(alpha=1.0)
         model.fit(X, labels)
@@ -71,6 +47,9 @@ def train_model(processed_data):
     except Exception as e:
         st.error(f"Error dalam melatih model: {e}")
         return None, None
+
+st.markdown('<div class="content">', unsafe_allow_html=True)
+st.markdown('<div class="title-style">🧠 AI News Classifier</div>', unsafe_allow_html=True)
 
 # Preprocess training data
 processed_data = preprocess_training_data(data)
@@ -83,10 +62,7 @@ if model is None:
 
 st.info("Kategori yang tersedia: Politik, Olahraga, Ekonomi, Otomotif, Teknologi")
 
-input_text = st.text_area(
-    "Masukkan teks untuk diklasifikasikan:", 
-    height=100
-)
+input_text = st.text_area("Masukkan teks untuk diklasifikasikan:", height=100)
 
 category_colors = {
     "politik": "#FFD700",  
@@ -107,7 +83,6 @@ with col2:
                 if not processed_input.strip():
                     st.warning("Masukkan Teks Kembali")
                 else:
-                    # Prediksi
                     input_vec = vectorizer.transform([processed_input])
                     prediction = model.predict(input_vec)[0]
                     proba = model.predict_proba(input_vec)[0]
@@ -138,10 +113,9 @@ with col2:
                             st.markdown(f"Kata-kata yang mempengaruhi prediksi: {words_text}")
                         else:
                             st.info("Tidak ada kata penting yang terdeteksi dalam vocabulary model.")
-                        
+                            
             except Exception:
                 st.error("Pastikan teks mengandung kata-kata yang relevan dengan kategori yang tersedia.")
-
 
 st.markdown("""
 <div class="fixed-footer" style="text-align: center; padding: 20px;">
