@@ -30,10 +30,17 @@ def get_indonesian_stopwords():
 def preprocess_text(text):
     if not text or not isinstance(text, str):
         return ""
-    text = text.lower()
-    text = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\$$\$$,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', text)
-    
+
+    text = text.lower().strip()
+
+    if re.match(r'^https?://', text):
+        parts = re.split(r'/|-|_', text)
+        keywords = [word for word in parts if word.isalpha()]
+        return ' '.join(keywords).strip()
+
+    text = re.sub(r'http[s]?://\S+', '', text)  # hapus URL
     return text.strip()
+
 
 def preprocess_training_data(data):
     processed_data = []
