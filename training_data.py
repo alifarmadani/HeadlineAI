@@ -132,6 +132,8 @@ data = [
     ("Duel panas antara AC Milan vs Napoli berakhir imbang", "olahraga"),
     ("Pelari Indonesia raih emas dalam lomba lari 100m SEA Games", "olahraga"),
     ("Malik Risaldi Senang Jadi Bek dan Bisa Kantongi Penyerang MU", "olahraga"),
+    ("Erick Balas Sindiran Media Asing soal Naturalisasi Indonesia", "olahraga"),
+    
     # Ekonomi
     ("Harga minyak dunia turun drastis hari ini", "ekonomi"),
     ("IHSG naik karena investor asing masuk", "ekonomi"),
