@@ -14,17 +14,26 @@ def load_css(file_path):
         pass
 load_css("style.css")
 
+def get_indonesian_stopwords():
+    return {
+        'yang', 'dan', 'di', 'ke', 'dari', 'dalam', 'untuk', 'pada', 'dengan', 
+        'oleh', 'adalah', 'ini', 'itu', 'akan', 'telah', 'sudah', 'dapat',
+        'atau', 'juga', 'tidak', 'ada', 'saya', 'kamu', 'dia', 'mereka',
+        'kami', 'kita', 'anda', 'ia', 'nya', 'mu', 'ku', 'se', 'ter',
+        'ber', 'per', 'an', 'kan', 'lah', 'pun', 'kah', 'tah', 'sangat',
+        'lebih', 'paling', 'sekali', 'bisa', 'harus', 'ingin', 'mau',
+        'seperti', 'karena', 'kalau', 'jika', 'bila', 'ketika', 'saat',
+        'waktu', 'sebelum', 'sesudah', 'setelah', 'sambil', 'selama'
+    }
+
 def preprocess_text(text):
     if not text or not isinstance(text, str):
         return ""
-
     text = text.lower().strip()
-
     if re.match(r'^https?://', text):
         parts = re.split(r'/|-|_', text)
         keywords = [word for word in parts if word.isalpha()]
         return ' '.join(keywords).strip()
-
     text = re.sub(r'http[s]?://\S+', '', text)
     return text.strip()
 
@@ -35,6 +44,9 @@ def preprocess_training_data(data):
         if processed_text:  
             processed_data.append((processed_text, label))
     return processed_data
+
+st.markdown('<div class="content">', unsafe_allow_html=True)
+st.markdown('<div class="title-style">🧠 AI News Classifier</div>', unsafe_allow_html=True)
 
 def train_model(processed_data):
     try:
@@ -48,13 +60,7 @@ def train_model(processed_data):
         st.error(f"Error dalam melatih model: {e}")
         return None, None
 
-st.markdown('<div class="content">', unsafe_allow_html=True)
-st.markdown('<div class="title-style">🧠 AI News Classifier</div>', unsafe_allow_html=True)
-
-# Preprocess training data
 processed_data = preprocess_training_data(data)
-
-# Train model
 model, vectorizer = train_model(processed_data)
 
 if model is None:
@@ -65,11 +71,8 @@ st.info("Kategori yang tersedia: Politik, Olahraga, Ekonomi, Otomotif, Teknologi
 input_text = st.text_area("Masukkan teks untuk diklasifikasikan:", height=100)
 
 category_colors = {
-    "politik": "#FFD700",  
-    "olahraga": "#2E8B57", 
-    "ekonomi": "#4169E1",  
-    "otomotif": "#DC143C", 
-    "teknologi": "#9370DB",
+    "politik": "#FFD700", "olahraga": "#2E8B57", "ekonomi": "#4169E1",  
+    "otomotif": "#DC143C", "teknologi": "#9370DB",
 }
 
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -100,12 +103,7 @@ with col2:
                     with st.expander("Kata-kata Penting yang Terdeteksi"):
                         feature_names = vectorizer.get_feature_names_out()
                         input_features = input_vec.toarray()[0]
-                        important_words = []
-                        
-                        for i, score in enumerate(input_features):
-                            if score > 0:
-                                important_words.append((feature_names[i], score))
-                        
+                        important_words = [(feature_names[i], score) for i, score in enumerate(input_features) if score > 0]
                         important_words.sort(key=lambda x: x[1], reverse=True)
                         
                         if important_words:
@@ -113,7 +111,7 @@ with col2:
                             st.markdown(f"Kata-kata yang mempengaruhi prediksi: {words_text}")
                         else:
                             st.info("Tidak ada kata penting yang terdeteksi dalam vocabulary model.")
-                            
+                        
             except Exception:
                 st.error("Pastikan teks mengandung kata-kata yang relevan dengan kategori yang tersedia.")
 
