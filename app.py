@@ -75,9 +75,8 @@ category_colors = {
     "otomotif": "#DC143C", "teknologi": "#9370DB",
 }
 
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    if st.button("🔍 Prediksi Kategori", use_container_width=True):
+st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
+if st.button("🔍 Prediksi Kategori", use_container_width=True):
         if not input_text.strip():
             st.warning("Harap masukkan teks terlebih dahulu.")
         else:
